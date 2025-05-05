@@ -64,7 +64,7 @@ client.once('ready', async () => {
         client.user.setActivity('VALORANT', { type: ActivityType.Playing });
         console.log('User is playing VALORANT. Bot status updated.');
       } else {
-        client.user.setActivity('Sleep', { type: ActivityType.Listening });
+        client.user.setActivity('Sleeping 💤', { type: ActivityType.Listening });
         console.log('User is not playing. Bot status set to Sleep.');
       }
     } catch (err) {
