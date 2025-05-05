@@ -36,7 +36,7 @@ client.once('ready', async () => {
           channelId: channel.id,
           guildId: process.env.guild,
           adapterCreator: channel.guild.voiceAdapterCreator,
-          selfMute: true,
+          selfMute: false,
           selfDeaf: true
         });
         joined = true;
