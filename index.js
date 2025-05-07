@@ -25,25 +25,26 @@ client.once('ready', async () => {
 
   client.user.setPresence({ status: 'dnd' });
 
-  // Join voice
-  let joined = false;
+  // Join voice (with auto rejoin if left)
   setInterval(async () => {
-    if (joined) return;
     try {
       const channel = await client.channels.fetch(process.env.channel);
       if (channel && channel.isVoiceBased()) {
-        joinVoiceChannel({
-          channelId: channel.id,
-          guildId: process.env.guild,
-          adapterCreator: channel.guild.voiceAdapterCreator,
-          selfMute: false,
-          selfDeaf: true
-        });
-        joined = true;
-        console.log('Joined voice channel successfully.');
+        const isBotInChannel = channel.members.has(client.user.id);
+
+        if (!isBotInChannel) {
+          console.log('Bot is not in voice channel, rejoining...');
+          joinVoiceChannel({
+            channelId: channel.id,
+            guildId: process.env.guild,
+            adapterCreator: channel.guild.voiceAdapterCreator,
+            selfMute: false,
+            selfDeaf: true
+          });
+        }
       }
     } catch (error) {
-      console.error('Failed to join voice channel:', error.message);
+      console.error('Failed to join or check voice channel:', error.message);
     }
   }, 10000);
 
